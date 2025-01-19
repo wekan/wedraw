@@ -1,13 +1,8 @@
 import React from 'react';
-import { Hello } from './Hello.jsx';
-import { Info } from './Info.jsx';
-import { ExcalidrawComponent } from './ExcalidrawComponent.jsx';
+import { Outlet } from 'react-router-dom';
 
 export const App = () => (
   <div className="app-container">
-    <h1>WeKan</h1>
-    <Hello/>
-    <Info/>
-    <ExcalidrawComponent/>
+    <Outlet />
   </div>
 );

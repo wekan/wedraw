@@ -6,9 +6,10 @@ body {
 }
 
 .app-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  max-width: none;
 }
 
 .app-container h1 {
@@ -18,9 +19,24 @@ body {
 }
 
 .excalidraw-wrapper {
-  height: 500px;
+  height: 100vh;
   width: 100%;
-  margin: 20px 0;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.drawing-board {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawing-board h1 {
+  margin: 10px;
+}
+
+.drawing-board .excalidraw-wrapper {
+  flex: 1;
+  height: auto;
 }

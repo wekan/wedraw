@@ -22,10 +22,3 @@ export const ExcalidrawComponent = () => {
     </div>
   );
 };
-
-export const App = () => (
-  <div className="app-container">
-    <h1>Meteor Excalidraw</h1>
-    <ExcalidrawComponent />
-  </div>
-);
