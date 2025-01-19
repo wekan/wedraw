@@ -1,8 +1,24 @@
 <head>
   <title>weme</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    #react-target {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="react-target"></div>
+  <div id="react-target">
+    <div id="loading">Loading application...</div>
+  </div>
+  <div id="error-container" style="display: none;"></div>
 </body>

@@ -1,14 +1,13 @@
 import React from 'react';
-import { Excalidraw } from '@excalidraw/excalidraw';
+import { Excalidraw, MainMenu, WelcomeScreen } from '@excalidraw/excalidraw';
 
 export const ExcalidrawComponent = () => {
   const onChange = (elements, state) => {
-    console.log("Elements:", elements);
-    console.log("State:", state);
+    // Handle changes here
   };
 
   return (
-    <div className="excalidraw-wrapper">
+    <div style={{ height: "100vh", width: "100vw" }}>
       <Excalidraw
         onChange={onChange}
         UIOptions={{
@@ -18,7 +17,12 @@ export const ExcalidrawComponent = () => {
             saveAsImage: true,
           }
         }}
-      />
+        renderTopRightUI={(isMobile) => (
+          <MainMenu />
+        )}
+      >
+        <WelcomeScreen />
+      </Excalidraw>
     </div>
   );
 };

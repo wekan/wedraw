@@ -80,7 +80,10 @@ export const DrawingBoard = () => {
             }
           }}
           onChange={(elements, state) => {
-            setElements(elements);
+            // Only update state if elements have changed
+            if (JSON.stringify(elements) !== JSON.stringify(elements)) {
+              setElements(elements);
+            }
           }}
         />
       </div>
