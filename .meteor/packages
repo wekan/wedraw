@@ -20,3 +20,11 @@ ddp-client                    # Handle WebSocket connections reliably
 
 static-html@1.4.0             # Define static page content in .html files
 react-meteor-data       # React higher-order component for reactively tracking Meteor data
+dev-error-overlay
+
+accounts-password@3.0.3
+accounts-github@1.5.1
+jam:easy-schema@1.4.0
+quave:migrations
+react-meteor-accounts@1.0.3
+ddp-rate-limiter@1.2.2
