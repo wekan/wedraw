@@ -1,6 +1,19 @@
+- At some cases [Hardened kernel may prevent creating new Wekan boards at Sandstorm](https://github.com/wekan/wekan/issues/1398)
+
 # Sandstorm at Debian and Ubuntu
 
+### Sandstorm Radicale: Calendars and Contacts
+
+- 2025-08-05
+  - Exporting Calendar and Contacts from Google Calendar and Google Contacts to Sandstorm Radicale works.
+  - Importing Calendar .ics file back to Google Calendar does not work, because .ics file size is 2.1 MB.
+    Google Calendar has problems importing .ics files bigger than 1 MB, it would need manual splitting to multiple files.
+    Sandstorm Radicale can import .ics file 2.1 MB successfully.
+
 ### Sandstorm CloudFlare DNS settings
+
+Sandstorm works when configured to full domain, with CloudFlare SSL/TLS, with Caddy.
+Not subdomain, not sub-url, and not with Let's Encrypt that AFAIK does not support wildcard SSL/TLS.
 
 Source: https://github.com/sandstorm-io/sandstorm/issues/3714#issuecomment-2366866243
 
@@ -13,17 +26,52 @@ DNS records:
 ```
 Caddyfile, proxy to KVM VM that is running Debian and Sandstorm:
 ```
+# Full domain where Sandstorm login is. Not subdomain. Not sub-url.
 *.example.com example.com {
         tls {
                 load /etc/caddy/certs
                 alpn http/1.1
         }
+        # If KVM VM, it's IP address:
+        #reverse_proxy 123.123.123.123:80
+        # Localhost port 81, when not in KVM VM 
+        reverse_proxy 127.0.0.1:81
+}
 
-        reverse_proxy 123.123.123.123:80
+blog.somecompany.com {
+        tls {
+                load /etc/caddy/certs
+                alpn http/1.1
+        }
+        # Blog hosted at Sandstorm WordPress
+        reverse_proxy 127.0.0.1:81
+}
+
+othercompany.com {
+        tls {
+                load /etc/caddy/certs
+                alpn http/1.1
+        }
+        # Website hosted at Sandstorm Hacker CMS
+        reverse_proxy 127.0.0.1:81
 }
 ```
-At /opt/sandstorm/sandstorm.conf is domain, http port etc.
+If having Sandstorm inside of KVM VM: https://github.com/wekan/wekan/blob/main/docs/Platforms/FOSS/Snap/Many-Snaps-on-LXC.md
 
+At /opt/sandstorm/sandstorm.conf is domain where Sandstorm login is, http port etc.
+```
+SERVER_USER=sandstorm
+PORT=81
+MONGO_PORT=6081
+BIND_IP=127.0.0.1
+BASE_URL=https://example.com
+WILDCARD_HOST=*.example.com
+UPDATE_CHANNEL=dev
+ALLOW_DEV_ACCOUNTS=false
+SMTP_LISTEN_PORT=25
+#SANDCATS_BASE_DOMAIN=sandcats.io
+#HTTPS_PORT=443
+```
 Some related info at:
 
 https://github.com/wekan/wekan/wiki/Caddy-Webserver-Config

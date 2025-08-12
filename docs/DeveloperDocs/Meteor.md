@@ -1,3 +1,7 @@
+## Learning Course: Your First Meteor 3.1 Application
+
+- https://www.youtube.com/watch?v=aFZzBb2oRi8&list=PLKKckIyt2nF863eP16mvVgWKR4JDyJoKy
+
 ## Meteor 3 Example Code
 
 - https://github.com/fredmaiaarantes/simpletasks
@@ -15,7 +19,7 @@
 - TWIM 058: Building Multi Platform Mobile Apps https://www.youtube.com/watch?v=ZTtXRJTUCIU 
 - https://www.youtube.com/watch?v=ZTtXRJTUCIU
 - https://github.com/jamauro/pwa-kit
-- https://wekan.team/app/
+- https://wekan.fi/app/
 - https://github.com/wekan/wekan/wiki/PWA
 - Over 100 icons for different platforms https://github.com/wekan/wekan/blob/main/public/site.webmanifest
 

@@ -65,6 +65,8 @@ def get_req_body_elems(obj, elems):
     elif obj.type in ('LogicalExpression', 'BinaryExpression', 'AssignmentExpression'):
         get_req_body_elems(obj.left, elems)
         get_req_body_elems(obj.right, elems)
+    elif obj.type == 'ChainExpression':
+        get_req_body_elems(obj.expression, elems)
     elif obj.type in ('ReturnStatement', 'UnaryExpression'):
         if obj.argument is not None:
             get_req_body_elems(obj.argument, elems)
@@ -930,47 +932,63 @@ paths:
       operationId: login
       summary: Login with REST API
       consumes:
-        - application/x-www-form-urlencoded
         - application/json
+        - application/x-www-form-urlencoded
       tags:
         - Login
       parameters:
-        - name: username
-          in: formData
+        - name: loginRequest
+          in: body
           required: true
-          description: |
-            Your username
-          type: string
-        - name: password
-          in: formData
-          required: true
-          description: |
-            Your password
-          type: string
-          format: password
+          description: Login credentials
+          schema:
+            type: object
+            required:
+              - username
+              - password
+            properties:
+              username:
+                description: |
+                  Your username
+                type: string
+              password:
+                description: |
+                  Your password
+                type: string
+                format: password
       responses:
         200:
           description: |-
             Successful authentication
           schema:
-            items:
-              properties:
-                id:
-                  type: string
-                token:
-                  type: string
-                tokenExpires:
-                  type: string
+            type: object
+            required:
+              - id
+              - token
+              - tokenExpires
+            properties:
+              id:
+                type: string
+                description: User ID
+              token:
+                type: string
+                description: |
+                  Authentication token
+              tokenExpires:
+                type: string
+                format: date-time
+                description: |
+                  Token expiration date
         400:
           description: |
             Error in authentication
           schema:
-            items:
-              properties:
-                error:
-                  type: number
-                reason:
-                  type: string
+            type: object
+            properties:
+              error:
+                type: string
+              reason:
+                type: string
         default:
           description: |
             Error in authentication
