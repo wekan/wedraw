@@ -1,10 +1,12 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 SessionData = new Mongo.Collection('sessiondata');
 
 /**
  * A UserSessionData in Wekan. Organization in Trello.
  */
-SessionData.attachSchema(
-  new SimpleSchema({
+SessionData.schema = 
+  {
     _id: {
       /**
        * the organization id
@@ -82,7 +84,7 @@ SessionData.attachSchema(
       optional: true,
     },
     'errors.$': {
-      type: new SimpleSchema({
+      type: {
         tag: {
           /**
            * i18n tag
@@ -123,7 +125,6 @@ SessionData.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

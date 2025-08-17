@@ -1,3 +1,5 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 import escapeForRegex from 'escape-string-regexp';
 import DOMPurify from 'dompurify';
@@ -7,8 +9,8 @@ CardComments = new Mongo.Collection('card_comments');
 /**
  * A comment on a card
  */
-CardComments.attachSchema(
-  new SimpleSchema({
+CardComments.schema = 
+  {
     boardId: {
       /**
        * the board ID
@@ -33,7 +35,6 @@ CardComments.attachSchema(
        * when was the comment created
        */
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert) {
@@ -47,7 +48,6 @@ CardComments.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

@@ -1,8 +1,13 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
-import { router } from '/imports/ui/router/config';
+import AppRouter from './components/router/AppRouter';
+
+// Import models to ensure global collections are available
+import './models.js';
+
+// Import and initialize i18n system
+import '/imports/i18n';
 
 // Add error boundary component
 class ErrorBoundary extends React.Component {
@@ -13,6 +18,10 @@ class ErrorBoundary extends React.Component {
 
   static getDerivedStateFromError(error) {
     return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Error caught by boundary:', error, errorInfo);
   }
 
   render() {
@@ -33,7 +42,7 @@ Meteor.startup(async () => {
     root.render(
       <ErrorBoundary>
         <React.StrictMode>
-          <RouterProvider router={router} />
+          <AppRouter />
         </React.StrictMode>
       </ErrorBoundary>
     );

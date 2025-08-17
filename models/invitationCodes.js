@@ -1,20 +1,21 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
 InvitationCodes = new Mongo.Collection('invitation_codes');
 
-InvitationCodes.attachSchema(
-  new SimpleSchema({
+InvitationCodes.schema = 
+  {
     code: {
       type: String,
     },
     email: {
       type: String,
       unique: true,
-      regEx: SimpleSchema.RegEx.Email,
+      regEx: EasySchema.RegEx.Email,
     },
     createdAt: {
       type: Date,
-      denyUpdate: false,
       optional: true,
       // eslint-disable-next-line consistent-return
       autoValue() {
@@ -29,7 +30,6 @@ InvitationCodes.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

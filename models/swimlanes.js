@@ -1,3 +1,5 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 import { ALLOWED_COLORS } from '/config/const';
 
@@ -6,8 +8,8 @@ Swimlanes = new Mongo.Collection('swimlanes');
 /**
  * A swimlane is an line in the kaban board.
  */
-Swimlanes.attachSchema(
-  new SimpleSchema({
+Swimlanes.schema = 
+  {
     title: {
       /**
        * the title of the swimlane
@@ -90,7 +92,6 @@ Swimlanes.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

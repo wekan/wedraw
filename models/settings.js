@@ -1,3 +1,6 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+import { Mongo } from 'meteor/mongo';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 import { TAPi18n } from '/imports/i18n';
 //var nodemailer = require('nodemailer');
@@ -9,8 +12,8 @@ const isSandstorm =
 
 Settings = new Mongo.Collection('settings');
 
-Settings.attachSchema(
-  new SimpleSchema({
+Settings.schema = 
+  {
     disableRegistration: {
       type: Boolean,
       optional: true,
@@ -132,7 +135,6 @@ Settings.attachSchema(
     },
     createdAt: {
       type: Date,
-      denyUpdate: true,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert) {
@@ -360,7 +362,7 @@ if (Meteor.isServer) {
         throw new Meteor.Error('not-allowed');
       }
       emails.forEach(email => {
-        if (email && SimpleSchema.RegEx.Email.test(email)) {
+        if (email && EasySchema.RegEx.Email.test(email)) {
           // Checks if the email is already link to an account.
           const userExist = ReactiveCache.getUser({ email });
           if (userExist) {

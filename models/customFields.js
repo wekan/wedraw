@@ -1,3 +1,5 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
 CustomFields = new Mongo.Collection('customFields');
@@ -5,8 +7,8 @@ CustomFields = new Mongo.Collection('customFields');
 /**
  * A custom field on a card in the board
  */
-CustomFields.attachSchema(
-  new SimpleSchema({
+CustomFields.schema = 
+  {
     boardIds: {
       /**
        * the ID of the board
@@ -52,7 +54,7 @@ CustomFields.attachSchema(
       optional: true,
     },
     'settings.dropdownItems.$': {
-      type: new SimpleSchema({
+      type: {
         _id: {
           /**
            * ID of the drop down item
@@ -126,7 +128,6 @@ CustomFields.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

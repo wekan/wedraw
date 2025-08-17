@@ -1,9 +1,11 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 // This collection shouldn't be manipulated directly by instead throw the
 // `UnsavedEdits` API on the client.
 UnsavedEditCollection = new Mongo.Collection('unsaved-edits');
 
-UnsavedEditCollection.attachSchema(
-  new SimpleSchema({
+UnsavedEditCollection.schema = 
+  {
     fieldName: {
       type: String,
     },
@@ -38,7 +40,6 @@ UnsavedEditCollection.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

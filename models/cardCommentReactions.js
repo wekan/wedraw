@@ -1,6 +1,8 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
-const commentReactionSchema = new SimpleSchema({
+const commentReactionSchema = {
   reactionCodepoint: {
     type: String,
     optional: false,
@@ -19,8 +21,8 @@ CardCommentReactions = new Mongo.Collection('card_comment_reactions');
 /**
  * All reactions of a card comment
  */
-CardCommentReactions.attachSchema(
-  new SimpleSchema({
+CardCommentReactions.schema = 
+  {
     boardId: {
       /**
        * the board ID

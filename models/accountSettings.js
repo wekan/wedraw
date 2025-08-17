@@ -1,9 +1,11 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
 AccountSettings = new Mongo.Collection('accountSettings');
 
-AccountSettings.attachSchema(
-  new SimpleSchema({
+AccountSettings.schema = 
+  {
     _id: {
       type: String,
     },
@@ -31,7 +33,6 @@ AccountSettings.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

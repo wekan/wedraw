@@ -1,3 +1,5 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache, ReactiveMiniMongoIndex } from '/imports/reactiveCache';
 import moment from 'moment/min/moment-with-locales';
 import {
@@ -14,8 +16,8 @@ Cards = new Mongo.Collection('cards');
 // XXX To improve pub/sub performances a card document should include a
 // de-normalized number of comments so we don't have to publish the whole list
 // of comments just to display the number of them in the board view.
-Cards.attachSchema(
-  new SimpleSchema({
+Cards.schema = 
+  {
     title: {
       /**
        * the title of the card
@@ -108,7 +110,6 @@ Cards.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {
@@ -127,7 +128,7 @@ Cards.attachSchema(
       defaultValue: [],
     },
     'customFields.$': {
-      type: new SimpleSchema({
+      type: {
         _id: {
           /**
            * the ID of the related custom field

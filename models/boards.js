@@ -1,3 +1,5 @@
+import { Mongo } from 'meteor/mongo';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 import escapeForRegex from 'escape-string-regexp';
 import { TAPi18n } from '/imports/i18n';
@@ -10,15 +12,13 @@ import {
 } from '/config/const';
 import Users from "./users";
 
-// const escapeForRegex = require('escape-string-regexp');
-
+// Global collection definition
 Boards = new Mongo.Collection('boards');
 
 /**
  * This is a Board.
  */
-Boards.attachSchema(
-  new SimpleSchema({
+const boardSchema = {
     title: {
       /**
        * The title of the board
@@ -119,7 +119,7 @@ Boards.attachSchema(
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert && !this.isSet) {
-          const colors = Boards.simpleSchema()._schema['labels.$.color']
+          const colors = Boards.easySchema()._schema['labels.$.color']
             .allowedValues;
           const defaultLabelsColors = _.clone(colors).splice(0, 6);
           return defaultLabelsColors.map(color => ({
@@ -638,11 +638,13 @@ Boards.attachSchema(
       type: Boolean,
       defaultValue: false,
     },
-  }),
-);
+  };
 
-Boards.helpers({
-  copy() {
+// Attach schema using jam:easy-schema approach
+Boards.schema = boardSchema;
+
+// Helper functions (converted from aldeed:collection2 helpers)
+Boards.copy = function() {
     const oldId = this._id;
     const oldWatchers = this.watchers ? this.watchers.slice() : [];
     delete this._id;

@@ -2,7 +2,7 @@
 
 # WeKan ® - Open Source kanban
 
-WeKan prototype with Excalidraw. Made with Meteor 3 and React.
+WeKan prototype with dependency visualization. Made with Meteor 3 and React.
 
 ## Downloads
 

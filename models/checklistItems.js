@@ -1,3 +1,5 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
 ChecklistItems = new Mongo.Collection('checklistItems');
@@ -5,8 +7,8 @@ ChecklistItems = new Mongo.Collection('checklistItems');
 /**
  * An item in a checklist
  */
-ChecklistItems.attachSchema(
-  new SimpleSchema({
+ChecklistItems.schema = 
+  {
     title: {
       /**
        * the text of the item
@@ -55,7 +57,6 @@ ChecklistItems.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

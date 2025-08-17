@@ -1,3 +1,5 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
 Org = new Mongo.Collection('org');
@@ -5,8 +7,8 @@ Org = new Mongo.Collection('org');
 /**
  * A Organization in Wekan. A Enterprise in Trello.
  */
-Org.attachSchema(
-  new SimpleSchema({
+Org.schema = 
+  {
     orgDisplayName: {
       /**
        * the name to display for the organization
@@ -58,7 +60,6 @@ Org.attachSchema(
        * creation date of the organization
        */
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert) {
@@ -72,7 +73,6 @@ Org.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

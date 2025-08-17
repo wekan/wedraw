@@ -1,6 +1,7 @@
 "use strict";
 
-const Fiber = Npm.require('fibers');
+// Note: Replaced fibers with async/await for Meteor 3 compatibility
+// const Fiber = Npm.require('fibers');
 const https = Npm.require('https');
 const url = Npm.require('url');
 const xmlParser = Npm.require('xml2js');
@@ -124,9 +125,10 @@ WebApp.connectHandlers.use((req, res, next) => {
   // Need to create a Fiber since we're using synchronous http calls and nothing
   // else is wrapping this in a fiber automatically
 
-  Fiber(() => {
-    middleware(req, res, next);
-  }).run();
+  // Fiber(() => {
+  //   middleware(req, res, next);
+  // }).run();
+  middleware(req, res, next);
 });
 
 const middleware = (req, res, next) => {

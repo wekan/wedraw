@@ -1489,3 +1489,53 @@ Migrations.add('remove-user-profile-hideCheckedItems', () => {
     noValidateMulti,
   );
 });
+
+// Migration to convert hardcoded boolean role flags to Meteor roles system
+Migrations.add('convert-boolean-roles-to-meteor-roles', () => {
+  console.log('Starting board roles migration to Meteor roles system...');
+  
+  // Get all boards
+  const boards = Boards.find().fetch();
+  console.log(`Found ${boards.length} boards to migrate`);
+  
+  let migratedCount = 0;
+  let errorCount = 0;
+  
+  boards.forEach(board => {
+    try {
+      if (board.members && board.members.length > 0) {
+        console.log(`Migrating board: ${board.title} (${board._id})`);
+        
+        // Migrate each member's roles
+        board.members.forEach(member => {
+          const userId = member.userId;
+          let newRole = 'Normal';
+          
+          if (member.isAdmin) {
+            newRole = 'BoardAdmin';
+          } else if (member.isCommentOnly) {
+            newRole = 'CommentOnly';
+          } else if (member.isNoComments) {
+            newRole = 'NoComments';
+          }
+          
+          // Add user to board with new role using Meteor's built-in roles
+          try {
+            Meteor.addUsersToRoles(userId, newRole, board._id);
+            console.log(`  - User ${userId}: ${member.isAdmin ? 'isAdmin' : member.isCommentOnly ? 'isCommentOnly' : member.isNoComments ? 'isNoComments' : 'Normal'} -> ${newRole}`);
+          } catch (error) {
+            console.error(`  - Failed to migrate user ${userId}:`, error);
+            errorCount++;
+          }
+        });
+        
+        migratedCount++;
+      }
+    } catch (error) {
+      console.error(`Error migrating board ${board._id}:`, error);
+      errorCount++;
+    }
+  });
+  
+  console.log(`Migration completed. Successfully migrated ${migratedCount} boards with ${errorCount} errors.`);
+});

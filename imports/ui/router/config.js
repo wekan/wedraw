@@ -2,7 +2,7 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { App } from '../App.jsx';
 import { DrawingBoard } from '../DrawingBoard.jsx';
-import { ExcalidrawComponent } from '../ExcalidrawComponent.jsx';
+import { DrawingBoard } from '../DrawingBoard.jsx';
 
 export const router = createBrowserRouter(
   [
@@ -12,7 +12,7 @@ export const router = createBrowserRouter(
       children: [
         {
           index: true,
-          element: <ExcalidrawComponent />
+          element: <DrawingBoard />
         },
         {
           path: 'draw/:boardId',

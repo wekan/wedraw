@@ -1,112 +1,67 @@
+import { Mongo } from 'meteor/mongo';
 import { ReactiveCache } from '/imports/reactiveCache';
 
+// Global collection definition
 Team = new Mongo.Collection('team');
 
 /**
  * A Team in Wekan. Organization in Trello.
  */
-Team.attachSchema(
-  new SimpleSchema({
-    teamDisplayName: {
-      /**
-       * the name to display for the team
-       */
-      type: String,
-      optional: true,
-    },
-    teamDesc: {
-      /**
-       * the description the team
-       */
-      type: String,
-      optional: true,
-      max: 190,
-    },
-    teamShortName: {
-      /**
-       * short name of the team
-       */
-      type: String,
-      optional: true,
-      max: 255,
-    },
-    teamWebsite: {
-      /**
-       * website of the team
-       */
-      type: String,
-      optional: true,
-      max: 255,
-    },
-    teamIsActive: {
-      /**
-       * status of the team
-       */
-      type: Boolean,
-      optional: true,
-    },
-    createdAt: {
-      /**
-       * creation date of the team
-       */
-      type: Date,
-      // eslint-disable-next-line consistent-return
-      autoValue() {
-        if (this.isInsert) {
-          return new Date();
-        } else if (this.isUpsert) {
-          return { $setOnInsert: new Date() };
-        } else {
-          this.unset();
-        }
-      },
-    },
-    modifiedAt: {
-      type: Date,
-      denyUpdate: false,
-      // eslint-disable-next-line consistent-return
-      autoValue() {
-        if (this.isInsert || this.isUpsert || this.isUpdate) {
-          return new Date();
-        } else {
-          this.unset();
-        }
-      },
-    },
-  }),
-);
+// Note: jam:easy-schema uses plain objects for schemas
+Team.schema = {
+  teamDisplayName: {
+    /**
+     * the name to display for the team
+     */
+    type: String,
+    optional: true,
+  },
+  teamDesc: {
+    /**
+     * the description the team
+     */
+    type: String,
+    optional: true,
+    max: 190,
+  },
+  teamShortName: {
+    /**
+     * short name of the team
+     */
+    type: String,
+    optional: true,
+    max: 255,
+  },
+  teamWebsite: {
+    /**
+     * website of the team
+     */
+    type: String,
+    optional: true,
+    max: 255,
+  },
+  teamIsActive: {
+    /**
+     * status of the team
+     */
+    type: Boolean,
+    optional: true,
+  },
+  createdAt: {
+    /**
+     * creation date of the team
+     */
+    type: Date,
+    optional: true,
+  },
+  modifiedAt: {
+    type: Date,
+    optional: true,
+  },
+};
 
-if (Meteor.isServer) {
-  Team.allow({
-    insert(userId, doc) {
-      const user = ReactiveCache.getUser(userId) || ReactiveCache.getCurrentUser();
-      if (user?.isAdmin)
-        return true;
-      if (!user) {
-        return false;
-      }
-      return doc._id === userId;
-    },
-    update(userId, doc) {
-      const user = ReactiveCache.getUser(userId) || ReactiveCache.getCurrentUser();
-      if (user?.isAdmin)
-        return true;
-      if (!user) {
-        return false;
-      }
-      return doc._id === userId;
-    },
-    remove(userId, doc) {
-      const user = ReactiveCache.getUser(userId) || ReactiveCache.getCurrentUser();
-      if (user?.isAdmin)
-        return true;
-      if (!user) {
-        return false;
-      }
-      return doc._id === userId;
-    },
-    fetch: [],
-  });
+// Note: Meteor 3 doesn't support allow/deny
+// Use built-in Meteor 3 roles for authorization instead
 
   Meteor.methods({
     setCreateTeam(
@@ -210,23 +165,23 @@ if (Meteor.isServer) {
       teamWebsite,
       teamIsActive,
     ) {
-        check(team, Object);
-        check(teamDisplayName, String);
-        check(teamDesc, String);
-        check(teamShortName, String);
-        check(teamWebsite, String);
-        check(teamIsActive, Boolean);
-        Team.update(team, {
-          $set: {
-            teamDisplayName: teamDisplayName,
-            teamDesc: teamDesc,
-            teamShortName: teamShortName,
-            teamWebsite: teamWebsite,
-            teamIsActive: teamIsActive,
-          },
-        });
-        Meteor.call('setUsersTeamsTeamDisplayName', team._id, teamDisplayName);
-      },
+      check(team, Object);
+      check(teamDisplayName, String);
+      check(teamDesc, String);
+      check(teamShortName, String);
+      check(teamWebsite, String);
+      check(teamIsActive, Boolean);
+      Team.update(team, {
+        $set: {
+          teamDisplayName: teamDisplayName,
+          teamDesc: teamDesc,
+          teamShortName: teamShortName,
+          teamWebsite: teamWebsite,
+          teamIsActive: teamIsActive,
+        },
+      });
+      Meteor.call('setUsersTeamsTeamDisplayName', team._id, teamDisplayName);
+    },
     setTeamAllFields(
       team,
       teamDisplayName,

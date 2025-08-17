@@ -593,7 +593,7 @@ export class TrelloCreator {
       grey: 'midnight',
     };
     const wekanColor = mapColors[trelloColorCode];
-    return wekanColor || Boards.simpleSchema()._schema.color.allowedValues[0];
+            return wekanColor || Boards.easySchema()._schema.color.allowedValues[0];
   }
 
   getPermission(trelloPermissionCode) {

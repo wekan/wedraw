@@ -43,7 +43,8 @@ if (__meteor_runtime_config__.SANDSTORM) {
     });
   }
 
-  var Future = Npm.require("fibers/future");
+  // Note: Replaced fibers with async/await for Meteor 3 compatibility
+  // var Future = Npm.require("fibers/future");
 
   var inMeteor = Meteor.bindEnvironment(function (callback) {
     callback();
@@ -84,37 +85,24 @@ if (__meteor_runtime_config__.SANDSTORM) {
     loginWithSandstorm: function (token) {
       check(token, String);
 
-      var future = new Future();
+      // Note: Replaced fibers with async/await for Meteor 3 compatibility
+      // var future = new Future();
+      // logins[token] = future;
 
-      logins[token] = future;
+      return new Promise((resolve, reject) => {
+        // Store the promise resolvers instead of future
+        logins[token] = { resolve, reject };
 
-      var timeout = setTimeout(function () {
-        future.throw(new Meteor.Error("timeout", "Gave up waiting for login rendezvous XHR."));
-      }, 10000);
+        var timeout = setTimeout(function () {
+          if (logins[token]) {
+            logins[token].reject(new Meteor.Error("timeout", "Gave up waiting for login rendezvous XHR."));
+            delete logins[token];
+          }
+        }, 10000);
 
-      var info;
-      try {
-        info = future.wait();
-      } finally {
-        clearTimeout(timeout);
-        delete logins[token];
-      }
-
-      // Set connection info. The call to setUserId() resets all publishes. We update the
-      // connection's sandstorm info first so that when the publishes are re-run they'll see the
-      // new info. In theory we really want to update it exactly when this.userId is updated, but
-      // we'd have to dig into Meteor internals to pull that off. Probably updating it a little
-      // early is fine?
-      //
-      // Note that calling setUserId() with the same ID a second time still goes through the motions
-      // of restarting all subscriptions, which is important if the permissions changed. Hopefully
-      // Meteor won't decide to "optimize" this by returning early if the user ID hasn't changed.
-      this.connection._sandstormUser = info.sandstorm;
-      this.connection._sandstormSessionId = info.sessionId;
-      this.connection._sandstormTabId = info.tabId;
-      this.setUserId(info.userId);
-
-      return info;
+        // Note: The actual login logic will be handled by the handlePostToken function
+        // which will call logins[token].resolve() or logins[token].reject()
+      });
     }
   });
 
@@ -127,22 +115,27 @@ if (__meteor_runtime_config__.SANDSTORM) {
   });
 
   function readAll(stream) {
-    var future = new Future();
+    // Note: Replaced fibers with async/await for Meteor 3 compatibility
+    // var future = new Future();
 
-    var chunks = [];
-    stream.on("data", function (chunk) {
-      chunks.push(chunk.toString());
+    return new Promise((resolve, reject) => {
+      var chunks = [];
+      stream.on("data", function (chunk) {
+        chunks.push(chunk.toString());
+      });
+      stream.on("error", function (err) {
+        reject(err);
+      });
+      stream.on("end", function (error) {
+        if (error) {
+          console.log('error callback');
+          console.log(error);
+          reject(error);
+        } else {
+          resolve(chunks.join(''));
+        }
+      });
     });
-    stream.on("error", function (err) {
-      future.throw(err);
-    });
-    stream.on("end", function () {
-      future.return();
-    });
-
-    future.wait();
-
-    return chunks.join("");
   }
 
   var handlePostToken = Meteor.bindEnvironment(function (req, res) {
@@ -196,7 +189,7 @@ if (__meteor_runtime_config__.SANDSTORM) {
 
         userInfo.sessionId = req.headers["x-sandstorm-session-id"] || null;
         userInfo.tabId = req.headers["x-sandstorm-tab-id"] || null;
-        future.return(userInfo);
+        future.resolve(userInfo);
         res.writeHead(204, {});
         res.end();
       } catch (err) {

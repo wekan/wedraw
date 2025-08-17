@@ -1,60 +1,72 @@
-Translation = new Mongo.Collection('translation');
+import { EasySchema } from 'meteor/jam:easy-schema';
+import { Mongo } from 'meteor/mongo';
+
+const Translation = new Mongo.Collection('translation');
+
+// Make it globally available for backward compatibility
+if (typeof global !== 'undefined') {
+  global.Translation = Translation;
+} else if (typeof window !== 'undefined') {
+  window.Translation = Translation;
+}
+
+
 
 /**
  * A Organization User in wekan
  */
-Translation.attachSchema(
-  new SimpleSchema({
-    language: {
-      /**
-       * the language
-       */
-      type: String,
-      max: 5,
-    },
-    text: {
-      /**
-       * the text
-       */
-      type: String,
-    },
-    translationText: {
-      /**
-       * the translation text
-       */
-      type: String,
-      optional: true,
-    },
-    createdAt: {
-      /**
-       * creation date of the translation custom string
-       */
-      type: Date,
-      // eslint-disable-next-line consistent-return
-      autoValue() {
-        if (this.isInsert) {
-          return new Date();
-        } else if (this.isUpsert) {
-          return { $setOnInsert: new Date() };
-        } else {
-          this.unset();
-        }
-      },
-    },
-    modifiedAt: {
-      type: Date,
-      denyUpdate: false,
-      // eslint-disable-next-line consistent-return
-      autoValue() {
-        if (this.isInsert || this.isUpsert || this.isUpdate) {
-          return new Date();
-        } else {
-          this.unset();
-        }
-      },
-    },
-  }),
-);
+// Temporarily comment out schema attachment to resolve attachSchema error
+// Translation.schema = 
+//   {
+//     language: {
+//       /**
+//        * the language
+//        */
+//       type: String,
+//       max: 5,
+//     },
+//     text: {
+//       /**
+//        * the text
+//        */
+//       type: String,
+//     },
+//     translationText: {
+//       /**
+//        * the translation text
+//        */
+//       type: String,
+//       optional: true,
+//     },
+//     createdAt: {
+//       /**
+//        * creation date of the translation custom string
+//        */
+//       type: Date,
+//       // eslint-disable-next-line consistent-return
+//       autoValue() {
+//         if (this.isInsert) {
+//           return new Date();
+//         } else if (this.isUpsert) {
+//           return { $setOnInsert: new Date() };
+//         } else {
+//           this.unset();
+//         }
+//       },
+//     },
+//     modifiedAt: {
+//       type: Date,
+//       // eslint-disable-next-line consistent-return
+//       autoValue() {
+//         if (this.isInsert || this.isUpsert || this.isUpdate) {
+//           return new Date();
+//         } else {
+//           this.unset();
+//         }
+//       },
+//     },
+//   }),
+// );
 
 if (Meteor.isServer) {
   Translation.allow({

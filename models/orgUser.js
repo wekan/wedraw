@@ -1,10 +1,12 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 OrgUser = new Mongo.Collection('orgUser');
 
 /**
  * A Organization User in wekan
  */
-OrgUser.attachSchema(
-  new SimpleSchema({
+OrgUser.schema = 
+  {
     _id: {
       /**
        * the organization user's id
@@ -58,7 +60,6 @@ OrgUser.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

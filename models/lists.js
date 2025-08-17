@@ -1,3 +1,5 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 import { ALLOWED_COLORS } from '/config/const';
 
@@ -6,8 +8,7 @@ Lists = new Mongo.Collection('lists');
 /**
  * A list (column) in the Wekan board.
  */
-Lists.attachSchema(
-  new SimpleSchema({
+const listSchema = {
     title: {
       /**
        * the title of the list
@@ -97,7 +98,6 @@ Lists.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         // this is redundant with updatedAt
@@ -163,8 +163,10 @@ Lists.attachSchema(
       type: Boolean,
       defaultValue: false,
     },
-  }),
-);
+  };
+
+// Attach schema using jam:easy-schema approach
+Lists.schema = listSchema;
 
 Lists.allow({
   insert(userId, doc) {

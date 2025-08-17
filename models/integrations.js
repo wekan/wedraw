@@ -1,3 +1,5 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
 Integrations = new Mongo.Collection('integrations');
@@ -5,8 +7,8 @@ Integrations = new Mongo.Collection('integrations');
 /**
  * Integration with third-party applications
  */
-Integrations.attachSchema(
-  new SimpleSchema({
+Integrations.schema = 
+  {
     enabled: {
       /**
        * is the integration enabled?
@@ -60,7 +62,6 @@ Integrations.attachSchema(
        * Creation date of the integration
        */
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert) {
@@ -74,7 +75,6 @@ Integrations.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

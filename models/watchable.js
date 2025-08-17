@@ -1,6 +1,6 @@
 // simple version, only toggle watch / unwatch
 const simpleWatchable = collection => {
-  collection.attachSchema({
+  collection.schema = {
     watchers: {
       type: [String],
       optional: true,
@@ -35,7 +35,7 @@ const complexWatchOptions = ['watching', 'tracking', 'muted'];
 const complexWatchDefault = 'muted';
 
 const complexWatchable = collection => {
-  collection.attachSchema({
+  collection.schema = {
     'watchers.$.userId': {
       type: String,
     },

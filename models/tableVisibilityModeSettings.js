@@ -1,9 +1,11 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
 TableVisibilityModeSettings = new Mongo.Collection('tableVisibilityModeSettings');
 
-TableVisibilityModeSettings.attachSchema(
-  new SimpleSchema({
+TableVisibilityModeSettings.schema = 
+  {
     _id: {
       type: String,
     },
@@ -31,7 +33,6 @@ TableVisibilityModeSettings.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

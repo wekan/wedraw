@@ -1,9 +1,12 @@
+import { EasySchema } from 'meteor/jam:easy-schema';
+import { Mongo } from 'meteor/mongo';
+
 import { ReactiveCache } from '/imports/reactiveCache';
 
 AccessibilitySettings = new Mongo.Collection('accessibilitySettings');
 
-AccessibilitySettings.attachSchema(
-  new SimpleSchema({
+AccessibilitySettings.schema = 
+  {
     enabled: {
       type: Boolean,
       defaultValue: false,
@@ -32,7 +35,6 @@ AccessibilitySettings.attachSchema(
     },
     modifiedAt: {
       type: Date,
-      denyUpdate: false,
       // eslint-disable-next-line consistent-return
       autoValue() {
         if (this.isInsert || this.isUpsert || this.isUpdate) {

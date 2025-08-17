@@ -1,0 +1,173 @@
+/* BoardsList Component Styles */
+
+.add-board-form {
+  padding: 20px;
+  min-width: 400px;
+}
+
+.add-board-form .form-group {
+  margin-bottom: 20px;
+}
+
+.add-board-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.add-board-form input[type="text"],
+.add-board-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.add-board-form input[type="text"]:focus,
+.add-board-form textarea:focus {
+  outline: none;
+  border-color: #0079BF;
+  box-shadow: 0 0 0 2px rgba(0, 121, 191, 0.2);
+}
+
+.add-board-form input[type="color"] {
+  width: 60px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-board-form .form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 30px;
+}
+
+.add-board-form .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-board-form .btn-primary {
+  background-color: #0079BF;
+  color: white;
+}
+
+.add-board-form .btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.add-board-form .btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.add-board-form .btn-secondary {
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.add-board-form .btn-secondary:hover {
+  background-color: #e9ecef;
+}
+
+/* Board list styles */
+.board-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.board-list-item {
+  display: block;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.board-list-item:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.board-list-item.label {
+  background-color: #0079BF;
+  color: white;
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.board-list-item.label:hover {
+  background-color: #0056b3;
+}
+
+/* Filter styles */
+.AllBoardTeamsOrgs {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.AllBoardTeamsOrgs li {
+  margin: 0;
+}
+
+.AllBoardTeamsOrgs select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.AllBoardBtns {
+  margin-left: auto;
+}
+
+.AllBoardButtonsContainer {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.AllBoardButtonsContainer input[type="button"] {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.AllBoardButtonsContainer input[type="button"]:hover {
+  background-color: #e9ecef;
+  border-color: #0079BF;
+}
+
+.AllBoardButtonsContainer .fa-filter {
+  color: #0079BF;
+  margin-right: 5px;
+}

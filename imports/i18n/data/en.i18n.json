@@ -117,6 +117,8 @@
   "admin-announcement-active": "Active System-Wide Announcement",
   "admin-announcement-title": "Announcement from Administrator",
   "all-boards": "All Boards",
+  "workspaces": "Workspaces",
+  "boards": "Boards",
   "and-n-other-card": "And __count__ other card",
   "and-n-other-card_plural": "And __count__ other cards",
   "apply": "Apply",
@@ -631,6 +633,7 @@
   "text-below-custom-login-logo": "Text below Custom Login Logo",
   "automatic-linked-url-schemes": "Custom URL Schemes which should automatically be clickable. One URL Scheme per line",
   "username": "Username",
+  "username-or-email": "Username or Email",
   "import-usernames": "Import Usernames",
   "view-it": "View it",
   "warn-list-archived": "warning: this card is in an list at Archive",
@@ -1268,5 +1271,9 @@
   "supportPopup-title": "Support",
   "accessibility-page-enabled": "Accessibility page enabled",
   "accessibility-title": "Accessibility topic",
-  "accessibility-content": "Accessibility content"
+  "accessibility-content": "Accessibility content",
+  "add-workspace": "Add Workspace",
+  "workspace-name": "Workspace Name",
+  "drop-board-here": "Drop board here",
+  "remove-from-workspace": "Remove from workspace"
 }

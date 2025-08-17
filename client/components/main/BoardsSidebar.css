@@ -1,0 +1,466 @@
+/* BoardsSidebar Component Styles */
+
+.boards-sidebar {
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.boards-sidebar.collapsed {
+  width: 60px !important;
+}
+
+.boards-sidebar.expanded {
+  width: 280px !important;
+}
+
+.boards-sidebar .sidebar-content {
+  transition: opacity 0.3s ease;
+}
+
+.boards-sidebar.collapsed .sidebar-content {
+  opacity: 0;
+}
+
+.boards-sidebar.expanded .sidebar-content {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .boards-sidebar {
+    position: fixed;
+    left: -280px;
+    z-index: 1000;
+  }
+  
+  .boards-sidebar.expanded {
+    left: 0;
+  }
+  
+  .home-content {
+    margin-left: 0 !important;
+  }
+}
+
+/* Layout structure */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header - Dark blue shortcuts bar */
+.app-container > header {
+  background-color: #1e3a8a;
+  color: white;
+  z-index: 1000;
+  position: relative;
+}
+
+/* Main content wrapper - Grey area below blue bars */
+.main-content {
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 60px); /* Adjust based on header height */
+  position: relative;
+  display: flex;
+  z-index: 1; /* Ensure this doesn't create a higher stacking context */
+}
+
+/* Left sidebar - Positioned below blue bars */
+.boards-sidebar {
+  background-color: #f8f9fa;
+  border-right: 1px solid #e9ecef;
+  position: relative; /* Changed from fixed to relative */
+  top: 0;
+  left: 0;
+  z-index: 1; /* Lower z-index so it appears behind modals */
+  height: 100%;
+}
+
+/* Main content area - Right side of sidebar */
+.main-content-area {
+  flex: 1;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+
+
+/* Add Board button styles */
+.add-board-btn {
+  background-color: white !important;
+  color: #0079BF !important;
+  border: 2px solid white !important;
+  position: relative;
+  z-index: 10;
+  display: inline-block !important;
+  visibility: visible !important;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+/* Ensure modals appear above sidebar */
+.modal-overlay,
+.modal-content,
+.popup-overlay {
+  z-index: 9999 !important;
+  position: relative;
+}
+
+/* Force modal to appear above everything */
+div[style*="zIndex: 9999"],
+div[style*="zIndex: 10000"] {
+  z-index: 9999 !important;
+  position: fixed !important;
+}
+
+/* Specific Add Board Modal styles */
+.add-board-modal-overlay {
+  z-index: 9999 !important;
+  position: fixed !important;
+}
+
+.add-board-modal-content {
+  z-index: 10000 !important;
+  position: relative !important;
+}
+
+/* Force sidebar to stay behind modal */
+.boards-sidebar {
+  z-index: 1 !important;
+}
+
+/* Ensure modal is above everything */
+.add-board-modal-overlay,
+.add-board-modal-content {
+  z-index: 99999 !important;
+}
+
+.add-board-btn:hover {
+  background-color: #f8f9fa !important;
+  transform: translateY(-1px);
+}
+
+/* Boards list area - Grey background */
+.boards-list-area {
+  background-color: #f8f9fa;
+  padding: 20px;
+  min-height: calc(100vh - 120px); /* Adjust based on header height only */
+}
+
+/* Page title in main header */
+.page-title h1 {
+  color: white !important;
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  padding: 15px 20px;
+}
+
+/* Ensure page title is white in header */
+#header-main-bar .page-title h1 {
+  color: white !important;
+}
+
+/* Additional specificity for header elements */
+#header .page-title h1,
+.header-main-bar .page-title h1 {
+  color: white !important;
+}
+
+
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  z-index: 1001;
+  transition: all 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+/* Section headers */
+.sidebar-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 14px;
+  font-weight: 600;
+  color: #495057;
+}
+
+.sidebar-section-count {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+/* Board items */
+.sidebar-board-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin: 4px 0;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.sidebar-board-item:hover {
+  background-color: #f8f9fa;
+  border-color: #007bff;
+}
+
+.sidebar-board-item.selected {
+  border-color: #007bff;
+  background-color: #e3f2fd;
+}
+
+.sidebar-board-item.dragging {
+  opacity: 0.5;
+  transform: rotate(5deg);
+}
+
+/* Workspace items */
+.sidebar-workspace-item {
+  padding: 8px 12px;
+  margin: 4px 0;
+  background-color: #e3f2fd;
+  border-radius: 6px;
+  border: 1px solid #bbdefb;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1976d2;
+}
+
+/* Workspace expand/collapse button */
+.workspace-expand-btn {
+  transition: all 0.2s ease;
+}
+
+.workspace-expand-btn:hover {
+  color: #0079BF !important;
+  transform: scale(1.1);
+}
+
+/* Workspace menu button */
+.workspace-menu-btn {
+  transition: all 0.2s ease;
+}
+
+.workspace-menu-btn:hover {
+  background-color: #f8f9fa !important;
+  color: #0079BF !important;
+}
+
+/* Workspace menu popup */
+.workspace-menu-popup {
+  position: absolute;
+  z-index: 1000;
+}
+
+.workspace-menu-popup .menu-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  transition: background-color 0.2s ease;
+}
+
+.workspace-menu-popup .menu-item:hover {
+  background-color: #f8f9fa;
+}
+
+.workspace-menu-popup .menu-item:first-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.workspace-menu-popup .menu-item:last-child {
+  border-radius: 0 0 6px 6px;
+}
+
+/* Drop zones */
+.sidebar-drop-zone {
+  min-height: 20px;
+  border: 2px dashed #dee2e6;
+  border-radius: 4px;
+  margin: 4px 0;
+  transition: all 0.2s ease;
+}
+
+.sidebar-drop-zone.drag-over {
+  border-color: #007bff;
+  background-color: #f8f9ff;
+}
+
+.sidebar-drop-zone-text {
+  text-align: center;
+  padding: 8px;
+  color: #6c757d;
+  font-size: 11px;
+}
+
+/* Add workspace form */
+.sidebar-add-workspace-form {
+  margin-bottom: 15px;
+}
+
+.sidebar-add-workspace-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.sidebar-add-workspace-buttons {
+  margin-top: 5px;
+  display: flex;
+  gap: 5px;
+}
+
+.sidebar-add-workspace-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.sidebar-add-workspace-btn.cancel {
+  background-color: #6c757d;
+}
+
+.sidebar-add-workspace-btn:hover {
+  opacity: 0.8;
+}
+
+/* Add workspace button */
+.sidebar-add-workspace-btn-add {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-add-workspace-btn-add:hover {
+  background-color: #218838;
+  transform: scale(1.1);
+}
+
+/* Remove board button */
+.sidebar-remove-board-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  font-size: 10px;
+  margin-left: 8px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-remove-board-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.1);
+}
+
+/* Board icon */
+.sidebar-board-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+/* Board title */
+.sidebar-board-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+/* Workspace board count */
+.sidebar-workspace-count {
+  font-size: 11px;
+  color: #1976d2;
+}
+
+/* Collapsed state adjustments */
+.boards-sidebar.collapsed .sidebar-board-item,
+.boards-sidebar.collapsed .sidebar-workspace-item {
+  justify-content: center;
+  padding: 8px 4px;
+}
+
+.boards-sidebar.collapsed .sidebar-board-icon {
+  margin-right: 0;
+  font-size: 18px;
+}
+
+/* Animation for drag and drop */
+@keyframes dropZoneHighlight {
+  0% { background-color: #f8f9ff; }
+  50% { background-color: #e3f2fd; }
+  100% { background-color: #f8f9ff; }
+}
+
+.sidebar-drop-zone.drag-over {
+  animation: dropZoneHighlight 0.5s ease-in-out;
+}
+
+/* Drag and drop visual feedback for workspaces */
+.sidebar-workspace-item[draggable="true"]:hover {
+  cursor: grab;
+}
+
+.sidebar-workspace-item[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+/* Workspace reordering drop zones */
+.sidebar-drop-zone[title*="reorder"]:hover {
+  background-color: rgba(0, 121, 191, 0.05);
+  border-color: rgba(0, 121, 191, 0.3);
+}
+
+.sidebar-drop-zone[title*="reorder"]:active {
+  background-color: rgba(0, 121, 191, 0.1);
+  border-color: #0079BF;
+}
+
+
