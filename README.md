@@ -2,7 +2,7 @@
 
 # WeKan ® - Open Source kanban
 
-WeKan prototype with dependency visualization. Made with Meteor 3 and React.
+WeKan prototype. Made with Meteor 3, React, Node.js and MongoDB.
 
 ## Downloads
 
